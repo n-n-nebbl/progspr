@@ -1,8 +1,11 @@
 package at.ac.tuwien.ps.calculator;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import at.ac.tuwien.ps.calculator.data.AndToken;
 import at.ac.tuwien.ps.calculator.data.ApplyToken;
@@ -38,6 +41,7 @@ public class Calculator {
 		initMap();
 		
 		InputStream inputStream = System.in;
+		BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream));
 		
 		CalculatorStack stack = new CalculatorStack();
 		CalculatorInput input = new CalculatorInput();
@@ -45,11 +49,31 @@ public class Calculator {
 		input.setInputStream(inputStream);
 		input.setTokenMap(tokenMap);
 		
+		StringTokenizer tokenizer;
+		String line;
+		String tokenString;
 		Token token;
 		try {
-			while((token = input.getNextToken()) != null) {
-				token.executeStackOperation(stack, input);
+			while((line = bufReader.readLine()) != null) {
+				System.out.println("start input");
+				tokenizer = new StringTokenizer(line, CalculatorInput.DELIMITERS, true);
+				while(tokenizer.hasMoreTokens()) {
+					tokenString = tokenizer.nextToken();
+					System.out.println("token read");
+					if(" ".equals(tokenString)) {
+						System.out.println(stack);
+						System.out.println(input);
+					} else {
+						input.addToken(tokenString);
+					}
+				}
+				token = input.getNextToken();
+				if (token != null) {
+					System.out.println("execute token: " + token.getClass().getName());
+					token.executeStackOperation(stack, input);
+				}
 				System.out.println(stack);
+				System.out.println(input);
 			}
 		}
 		catch(Exception ex) {

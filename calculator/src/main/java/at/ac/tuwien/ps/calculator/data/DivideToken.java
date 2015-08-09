@@ -8,6 +8,7 @@ public class DivideToken extends Token<Character> {
 	public void executeStackOperation(CalculatorStack stack, CalculatorInput input) {
 		Integer first = stack.consumeObject(Integer.class);
 		Integer second = stack.consumeObject(Integer.class);
+		System.out.println(first + " / " + second);
 		stack.addOnTop(first / second);
 	}
 }

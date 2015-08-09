@@ -53,9 +53,9 @@ public class CalculatorStack {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		for(int i=0; i<list.size(); i++) {
+		for(int i=list.size()-1; i>=0; i--) {
 			result.append(list.get(i)).append(" ");
 		}
-		return result.reverse().toString().trim();
+		return result.toString().trim();
 	}
 }
